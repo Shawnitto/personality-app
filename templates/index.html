@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>성격 추천 앱</title>
+</head>
+<body>
+    <h1>성격 및 원칙 기반 성향 추천</h1>
+    <form action="/get-suggestions" method="POST">
+        <label for="personality">성격:</label>
+        <input type="text" id="personality" name="personality" placeholder="예: 호기심이 많음" required>
+        <br><br>
+        <label for="principle">원칙:</label>
+        <input type="text" id="principle" name="principle" placeholder="예: 정체되지 않는다" required>
+        <br><br>
+        <button type="submit">추천 받기</button>
+    </form>
+    <div id="result">
+        <p>결과가 여기에 표시됩니다.</p>
+    </div>
+</body>
+</html>
