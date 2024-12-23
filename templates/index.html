@@ -19,5 +19,38 @@
     <div id="result">
         <p>결과가 여기에 표시됩니다.</p>
     </div>
+
+    <script>
+        document.getElementById('suggestion-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // 폼 제출 기본 동작 막기
+
+            // 입력값 가져오기
+            const personality = document.getElementById('personality').value;
+            const principle = document.getElementById('principle').value;
+
+            // API 호출
+            fetch('/get-suggestions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    personality: personality,
+                    principle: principle
+                })
+            })
+            .then(response => response.json())  // JSON 형식으로 응답받기
+            .then(data => {
+                // 결과를 화면에 출력
+                document.getElementById('result').innerText = data.suggestions;
+            })
+            .catch(error => {
+                // 오류 처리
+                console.error('Error:', error);
+                document.getElementById('result').innerText = '오류가 발생했습니다. 다시 시도해주세요.';
+            });
+        });
+    </script>
+
 </body>
 </html>
