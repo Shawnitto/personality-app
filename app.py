@@ -24,7 +24,7 @@ def get_suggestions(personality, principle):
             max_tokens=100,
             temperature=0.7
         )
-        rsuggestions = response['choices'][0]['message']['content'].strip()
+        suggestions = response['choices'][0]['message']['content'].strip()
         return suggestions.encode('utf-8').decode('utf-8')  # 텍스트 인코딩 디코딩 처리
     except Exception as e:
         return f"OpenAI API Error: {e}"
