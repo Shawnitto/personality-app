@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import os
 import openai
 
@@ -28,17 +28,20 @@ def get_suggestions(personality, principle):
 # 기본 라우팅 (홈페이지)
 @app.route('/')
 def home():
-    return "Welcome to the Personality Suggestion API! Use the `/get-suggestions` endpoint."
+	return render_template('index.html')  # index.html 파일 렌더링
 
 # 추천 결과를 반환하는 API
 @app.route('/get-suggestions', methods=['POST'])
 def suggest():
-    if not request.is_json:
-        return jsonify({"error": "Request must be JSON"}), 415  # 415: Unsupported Media Type
-
-    data = request.get_json()
-    personality = data.get('personality', '')
-    principle = data.get('principle', '')
+    if request.content_type == 'application/x-www-form-urlencoded':  # 폼 데이터 처리
+        personality = request.form.get('personality', '')
+        principle = request.form.get('principle', '')
+    else:  # JSON 요청 처리
+        if not request.is_json:
+            return jsonify({"error": "Request must be JSON"}), 415
+        data = request.get_json()
+        personality = data.get('personality', '')
+        principle = data.get('principle', '')
 
     suggestions = get_suggestions(personality, principle)
     return jsonify({'suggestions': suggestions})
