@@ -49,6 +49,8 @@ def suggest():
 
     suggestions = get_suggestions(personality, principle)
     return jsonify({'suggestions': suggestions})
+    response.headers["Content-Type"] = "application/json; charset=utf-8"  # 응답 헤더에 UTF-8 인코딩 지정
+    return response
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
