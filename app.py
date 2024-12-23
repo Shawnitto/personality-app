@@ -12,16 +12,19 @@ def get_suggestions(personality, principle):
     prompt = f"""
     성격: {personality}
     원칙: {principle}
-    위의 성격과 원칙을 기반으로 어울리는 성향을 3~5개 추천해 주세요.
+    위의 성격과 원칙을 기반으로 적합한 성향을 추천해 주세요.
     """
     try:
-        response = openai.Completion.create(
-            engine="text-davinci-003",
-            prompt=prompt,
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",  # 최신 모델로 변경
+            messages=[
+                {"role": "system", "content": "You are an assistant that provides personality-based suggestions."},
+                {"role": "user", "content": prompt}
+            ],
             max_tokens=100,
             temperature=0.7
         )
-        return response.choices[0].text.strip()
+        return response['choices'][0]['message']['content'].strip()
     except Exception as e:
         return f"OpenAI API Error: {e}"
 
